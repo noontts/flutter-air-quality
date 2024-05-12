@@ -1,0 +1,5 @@
+name: super_air_quality_ultimate
+
+packages:
+  - apps/**
+  - packages/**
