@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/flutter-air-quality.iml" filepath="$PROJECT_DIR$/.idea/flutter-air-quality.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apps/air_quality/melos_air_quality.iml" filepath="$PROJECT_DIR$/apps/air_quality/melos_air_quality.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apps/core/melos_core.iml" filepath="$PROJECT_DIR$/apps/core/melos_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/core_libs/melos_core_libs.iml" filepath="$PROJECT_DIR$/packages/core_libs/melos_core_libs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/core_ui/melos_core_ui.iml" filepath="$PROJECT_DIR$/packages/core_ui/melos_core_ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apps/map/melos_map.iml" filepath="$PROJECT_DIR$/apps/map/melos_map.iml" />
+      <module fileurl="file://$PROJECT_DIR$/melos_super_air_quality_ultimate.iml" filepath="$PROJECT_DIR$/melos_super_air_quality_ultimate.iml" />
     </modules>
   </component>
 </project>
