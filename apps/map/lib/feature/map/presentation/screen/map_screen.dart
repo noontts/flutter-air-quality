@@ -1,7 +1,9 @@
+import 'package:core_libs/dependency_injection/get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:map/mock/marker_mock.dart';
+import 'package:map/feature/map/domain/ports/map/services.dart';
+import 'package:core_libs/utils/debounce.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MapScreen extends StatefulWidget{
@@ -12,7 +14,9 @@ class MapScreen extends StatefulWidget{
 }
 
 class _MapScreenState extends State<MapScreen> {
+  IMapService service = getIt.get<IMapService>();
   final mockLatLng = [18.80823885274427, 98.9541342695303];
+  final _debounce = Debounce(milliseconds: 1000);
   List<Marker> listMarker = [];
 
   BorderRadiusGeometry radius = const BorderRadius.only(
@@ -23,11 +27,11 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    getListMarker();
   }
 
-  void getListMarker () async{
-    listMarker = await listMockMarkers();
+  void getListMarker (MapPosition position) async{
+    listMarker = await service.getMarkerByBounds(position.bounds!);
+    print(listMarker.length);
   }
 
   @override
@@ -42,7 +46,14 @@ class _MapScreenState extends State<MapScreen> {
           child: FlutterMap(
               options: MapOptions(
                 initialCenter: LatLng(mockLatLng[0], mockLatLng[1]),
-                initialZoom: 14,
+                initialZoom: 12,
+                onPositionChanged: (position,_){
+                  _debounce.run(() {
+                    setState(() {
+                      getListMarker(position);
+                    });
+                  });
+                }
               ),
               children: [
                 TileLayer(

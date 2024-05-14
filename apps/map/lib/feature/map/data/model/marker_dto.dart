@@ -1,10 +1,10 @@
-class Marker {
+class MarkerResponse {
   String? status;
   List<Data>? data;
 
-  Marker({this.status, this.data});
+  MarkerResponse({this.status, this.data});
 
-  Marker.fromJson(Map<String, dynamic> json) {
+  MarkerResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['data'] != null) {
       data = <Data>[];
