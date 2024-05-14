@@ -16,8 +16,9 @@ class MapScreen extends StatefulWidget{
 class _MapScreenState extends State<MapScreen> {
   IMapService service = getIt.get<IMapService>();
   final mockLatLng = [18.80823885274427, 98.9541342695303];
-  final _debounce = Debounce(milliseconds: 1000);
-  List<Marker> listMarker = [];
+  final _debounce = Debounce(milliseconds: 350);
+  List<Marker> fullListMarker = [];
+  List<Marker> visibleMarker = [];
 
   BorderRadiusGeometry radius = const BorderRadius.only(
     topLeft: Radius.circular(24.0),
@@ -30,8 +31,13 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void getListMarker (MapPosition position) async{
-    listMarker = await service.getMarkerByBounds(position.bounds!);
-    print(listMarker.length);
+    fullListMarker = await service.getMarkerByBounds(position.bounds!);
+    updateVisibleMarker();
+  }
+
+  void updateVisibleMarker (){
+    visibleMarker = fullListMarker;
+    setState(() {});
   }
 
   @override
@@ -46,23 +52,21 @@ class _MapScreenState extends State<MapScreen> {
           child: FlutterMap(
               options: MapOptions(
                 initialCenter: LatLng(mockLatLng[0], mockLatLng[1]),
-                initialZoom: 12,
+                initialZoom: 14,
                 onPositionChanged: (position,_){
                   _debounce.run(() {
                     setState(() {
                       getListMarker(position);
                     });
                   });
-                }
+                },
               ),
               children: [
                 TileLayer(
                   urlTemplate:
                       'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 ),
-                MarkerLayer(markers: [
-                  ...listMarker
-                ]),
+                MarkerLayer(markers: visibleMarker),
               ]
           ),
         ),

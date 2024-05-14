@@ -33,7 +33,7 @@ class MapService extends IMapService {
           child: MarkerPM25(
             pm: e.aqi,
             latLng: LatLng(e.lat, e.lon),
-            name: e.name,
+            name: e.name
           )));
     }
 
