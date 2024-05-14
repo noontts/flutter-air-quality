@@ -4,9 +4,9 @@ import 'package:map/feature/map/domain/entities/marker.dart';
 import 'package:map/feature/map/presentation/widget/marker_pm.dart';
 
 final mockMarker = <MarkerDisplay>[
-  MarkerDisplay(lat: 18.7909333, lon: 98.99, aqi: 68),
-  MarkerDisplay(lat: 18.840732, lon: 98.96978, aqi: 120),
-  MarkerDisplay(lat: 18.787747, lon: 98.9931284, aqi: 230),
+  MarkerDisplay(lat: 18.7909333, lon: 98.99, aqi: 68, name:"City Hall, Chiangmai, Thailand (ศาลากลางเชียงใหม่)"),
+  MarkerDisplay(lat: 18.840732, lon: 98.96978, aqi: 120, name:"Chiang Mai"),
+  MarkerDisplay(lat: 18.787747, lon: 98.9931284, aqi: 230, name: "Yupparaj Wittayalai School, Chiangmai, Thailand (โรงเรียนยุพราชวิทยาลัย)"),
 ];
 
 
@@ -20,7 +20,7 @@ List<Marker> listMockMarkers(){
             width: 70,
             height: 70,
             point: LatLng(mock.lat, mock.lon),
-            child: MarkerPM25(pm: mock.aqi, latLng: LatLng(mock.lat, mock.lon),)
+            child: MarkerPM25(pm: mock.aqi, latLng: LatLng(mock.lat, mock.lon),name: mock.name,)
         ));
   }
 
