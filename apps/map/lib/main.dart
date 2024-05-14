@@ -1,8 +1,11 @@
+import 'package:core_libs/dependency_injection/get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:map/feature/map/presentation/screen/map_screen.dart';
+import 'package:map/infrastructure/dependency_injection/inject.dart';
 import 'package:map/infrastructure/router/router.dart';
 
 void main() {
+  registerCoreServices();
+  registerMapService();
   runApp(const MapApp());
 }
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:map/mock/marker_mock.dart';
+import 'package:map/feature/map/domain/ports/map/services.dart';
+import 'package:core_libs/utils/debounce.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MapScreen extends StatefulWidget{
@@ -12,8 +13,11 @@ class MapScreen extends StatefulWidget{
 }
 
 class _MapScreenState extends State<MapScreen> {
+  IMapService service = getIt.get<IMapService>();
   final mockLatLng = [18.80823885274427, 98.9541342695303];
-  List<Marker> listMarker = [];
+  final _debounce = Debounce(milliseconds: 350);
+  List<Marker> fullListMarker = [];
+  List<Marker> visibleMarker = [];
 
   BorderRadiusGeometry radius = const BorderRadius.only(
     topLeft: Radius.circular(24.0),
@@ -23,11 +27,16 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    getListMarker();
   }
 
-  void getListMarker () async{
-    listMarker = await listMockMarkers();
+  void getListMarker (MapPosition position) async{
+    fullListMarker = await service.getMarkerByBounds(position.bounds!);
+    updateVisibleMarker();
+  }
+
+  void updateVisibleMarker (){
+    visibleMarker = fullListMarker;
+    setState(() {});
   }
 
   @override
@@ -43,15 +52,20 @@ class _MapScreenState extends State<MapScreen> {
               options: MapOptions(
                 initialCenter: LatLng(mockLatLng[0], mockLatLng[1]),
                 initialZoom: 14,
+                onPositionChanged: (position,_){
+                  _debounce.run(() {
+                    setState(() {
+                      getListMarker(position);
+                    });
+                  });
+                },
               ),
               children: [
                 TileLayer(
                   urlTemplate:
                       'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 ),
-                MarkerLayer(markers: [
-                  ...listMarker
-                ]),
+                MarkerLayer(markers: visibleMarker),
               ]
           ),
         ),
