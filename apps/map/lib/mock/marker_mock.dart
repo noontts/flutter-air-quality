@@ -20,7 +20,7 @@ List<Marker> listMockMarkers(){
             width: 70,
             height: 70,
             point: LatLng(mock.lat, mock.lon),
-            child: MarkerPM25(pm: mock.aqi, latLng: LatLng(mock.lat, mock.lon),name: mock.name,)
+            child: MarkerPM25(pm: mock.aqi, latLng: LatLng(mock.lat, mock.lon),name: mock.name, onClick: (){},)
         ));
   }
 
