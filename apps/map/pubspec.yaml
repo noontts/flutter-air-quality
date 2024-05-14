@@ -8,6 +8,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  core_libs:
+    path: ../../packages/core_libs
   cupertino_icons: ^1.0.6
   flutter_map: ^6.1.0
   latlong2: ^0.9.1

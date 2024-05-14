@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:core_libs/utils/air_quality_color.dart';
 
 class MarkerPM25 extends StatelessWidget {
   final int pm;
@@ -15,7 +16,8 @@ class MarkerPM25 extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: aqiToColor(pm),
+              gradient: getAqiGradient(pm),
               borderRadius: BorderRadius.circular(100),
           ),
           child: Center(child: Text((pm).toString())),

@@ -5,8 +5,8 @@ import 'package:map/feature/map/presentation/widget/marker_pm.dart';
 
 final mockMarker = <MarkerDisplay>[
   MarkerDisplay(lat: 18.7909333, lon: 98.99, aqi: 68),
-  MarkerDisplay(lat: 18.840732, lon: 98.96978, aqi: 78),
-  MarkerDisplay(lat: 18.787747, lon: 98.9931284, aqi: 68),
+  MarkerDisplay(lat: 18.840732, lon: 98.96978, aqi: 120),
+  MarkerDisplay(lat: 18.787747, lon: 98.9931284, aqi: 230),
 ];
 
 
