@@ -1,4 +1,5 @@
 import 'package:core_libs/utils/air_quality_color.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -11,7 +12,7 @@ class CityAirQualityZone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    const apiPm = 141;
+    const apiPm = 49;
 
     final siNaMian = getAqiGradientMainZone(apiPm);
     final siText = aqiToColor(apiPm);
@@ -26,21 +27,36 @@ class CityAirQualityZone extends StatelessWidget {
                   gradient: siNaMian,  
                 ),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
                   child: Column(
                     children: [
-                      const Center(
-                        child: Text(
-                          'No IQ Air',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.search),
+                              iconSize: 35,
+                              color: const Color.fromARGB(255, 0, 0, 0),
+                              onPressed: () {},
+                            ),
+                            const Center(
+                              child: Text(
+                                'No IQ Air',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                            const Text("    ") //บังคับให้เว้นสวยๆ
+                          ],
                         ),
                       ),
-                      Center(
+                      const Center(
                         child: Text(
                           '49',
                           style: TextStyle(
