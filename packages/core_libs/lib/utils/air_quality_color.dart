@@ -63,3 +63,49 @@ LinearGradient getAqiGradient(int aqi) {
     );
   }
 }
+
+LinearGradient getAqiGradientMainZone(int aqi) {
+  if (aqi >= 0 && aqi <= 50) {
+    return const LinearGradient(
+      colors: [Color(0xFF47F5F5), Color(0xFFE7FFFF)],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    );
+  } else if (aqi >= 51 && aqi <= 100) {
+    return const LinearGradient(
+      colors: [Color(0xFFFAD550), Color(0xFFFFFAEA)],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    );
+  } else if (aqi >= 101 && aqi <= 150) {
+    return const LinearGradient(
+      colors: [Color(0xFFFB9855), Color(0xFFFFEEE2)],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    );
+  } else if (aqi >= 151 && aqi <= 200) {
+    return const LinearGradient(
+      colors: [Color(0xFFFF6A6E), Color(0xFFFFDEDF)],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    );
+  } else if (aqi >= 201 && aqi <= 300) {
+    return const LinearGradient(
+      colors: [Color(0xFFa97bbc), Color(0xFFebe2ef)],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    );
+  } else if (aqi >= 301) {
+    return const LinearGradient(
+      colors: [Color(0xFF9b5974), Color(0xFFebd4dd)],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    );
+  } else {
+    return const LinearGradient(
+      colors: [Color(0xFF47f5f5), Color(0xFFe7ffff)],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    );
+  }
+}

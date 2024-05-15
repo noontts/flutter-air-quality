@@ -36,7 +36,7 @@ class ObservationCard extends StatelessWidget {
         color: Colors.white,
         child: SizedBox(
           height: 75,
-          width: 175,
+          width: 165,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
@@ -51,8 +51,8 @@ class ObservationCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                title: Text(textTitle),
-                subtitle: Text(textSubTitle),
+                title: Text(textTitle , style: const TextStyle(fontSize: 12 , fontWeight: FontWeight.normal),),
+                subtitle: Text(textSubTitle, style: const TextStyle(fontSize: 12 , fontWeight: FontWeight.normal),),
               ),
             ],
           ),
