@@ -14,8 +14,8 @@ class CityAirQualityZone extends StatelessWidget {
 
     const apiPm = 49;
 
-    final siNaMian = getAqiGradientMainZone(apiPm);
-    final siText = aqiToColor(apiPm);
+    final backgroundGradientColor = getAqiGradientMainZone(apiPm);
+    // final avgTextColor = aqiToColor(apiPm);
 
     return Column(
         children: [
@@ -24,14 +24,14 @@ class CityAirQualityZone extends StatelessWidget {
               Container(
                 height: 340,       
                 decoration: BoxDecoration(
-                  gradient: siNaMian,  
+                  gradient: backgroundGradientColor,  
                 ),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
