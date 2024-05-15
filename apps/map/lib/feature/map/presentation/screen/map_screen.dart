@@ -20,6 +20,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  final PanelController _pc = PanelController();
   IMapService service = getIt.get<IMapService>();
   final mockLatLng = [18.80823885274427, 98.9541342695303];
   final _debounce = Debounce(milliseconds: 350);
@@ -58,23 +59,27 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void updateVisibleMarker() {
-    visibleMarker = fullListMarker;
-    setState(() {});
+    setState(() {
+      visibleMarker = fullListMarker;
+    });
   }
 
-  void updateSlidingPanel(int aqi, String name) {
-    stationName = name;
-    this.aqi = aqi;
-    setState(() {});
+  void updateSlidingPanel(int aqi, String name) async {
+    setState(() {
+      stationName = name;
+      this.aqi = aqi;
+    });
+    await _pc.show();
+    await _pc.open();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SlidingUpPanel(
+        controller: _pc,
         borderRadius: radius,
         maxHeight: 200,
-        minHeight: stationName == '' ? 0 : 100,
         panel: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -97,6 +102,9 @@ class _MapScreenState extends State<MapScreen> {
         body: Center(
           child: FlutterMap(
               options: MapOptions(
+                onTap: (_, point) async {
+                  await _pc.hide();
+                },
                 initialCenter: LatLng(mockLatLng[0], mockLatLng[1]),
                 initialZoom: 14,
                 onPositionChanged: (position, _) {
