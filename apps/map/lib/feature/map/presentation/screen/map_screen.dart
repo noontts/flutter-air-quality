@@ -35,7 +35,7 @@ class _MapScreenState extends State<MapScreen> {
   );
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
   }
 
@@ -80,6 +80,7 @@ class _MapScreenState extends State<MapScreen> {
         controller: _pc,
         borderRadius: radius,
         maxHeight: 200,
+        minHeight: 0,
         panel: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
