@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:core_libs/utils/air_quality_color.dart';
@@ -8,9 +7,10 @@ class MarkerPM25 extends StatelessWidget {
   final int pm;
   final LatLng latLng;
   final String name;
+  final Function onClick;
 
   const MarkerPM25({super.key, required this.pm, required this.latLng,
-    required this.name});
+    required this.name, required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +29,15 @@ class MarkerPM25 extends StatelessWidget {
               gradient: getAqiGradient(pm),
               borderRadius: BorderRadius.circular(100),
             ),
-            child: Center(child: Text((pm).toString())),
+            child: Center(child: Text((pm).toString(),
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w800
+            ),)),
           ),
         ),
       ),
-      onTap: () {
-        print('${latLng.latitude} ${latLng.longitude}');
-      },
+      onTap: () {onClick(pm, name);},
     );
   }
 }
