@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:map/feature/map/domain/ports/map/services.dart';
 import 'package:core_libs/utils/debounce.dart';
+import 'package:map/feature/map/presentation/widget/gradient_aqi.dart';
 import 'package:map/feature/map/presentation/widget/pm_25_info.dart';
 import 'package:map/feature/map/presentation/widget/pm_25_number.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -72,26 +73,23 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       body: SlidingUpPanel(
         borderRadius: radius,
-        maxHeight: 125,
+        maxHeight: 200,
         minHeight: stationName == '' ? 0 : 100,
         panel: Center(
           child: Padding(
-            padding: const EdgeInsets.all(25.0),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             child: Column(
               children: [
                 Expanded(
-                  child: Container(
-                    color: Colors.red,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Pm25Number(aqi: aqi),
-                        const SizedBox(width: 20),
-                        Pm25Info(name: stationName, aqi: aqi),
-                      ],
-                    ),
+                  child: Row(
+                    children: [
+                      Pm25Number(aqi: aqi),
+                      const SizedBox(width: 20),
+                      Pm25Info(name: stationName, aqi: aqi),
+                    ],
                   ),
                 ),
+                const GradientAqi()
               ],
             ),
           ),

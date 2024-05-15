@@ -29,7 +29,11 @@ class MarkerPM25 extends StatelessWidget {
               gradient: getAqiGradient(pm),
               borderRadius: BorderRadius.circular(100),
             ),
-            child: Center(child: Text((pm).toString())),
+            child: Center(child: Text((pm).toString(),
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w800
+            ),)),
           ),
         ),
       ),
