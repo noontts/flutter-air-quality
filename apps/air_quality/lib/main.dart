@@ -1,7 +1,9 @@
 import 'package:air_quality/features/home/presentation/screen/home_screen.dart';
+import 'package:air_quality/infrastructure/dependency_injection/inject.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  registerAQIService();
   runApp(const MyApp());
 }
 
