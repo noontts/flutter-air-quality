@@ -20,6 +20,9 @@ dependencies:
     path: ../../packages/core_ui
 
   cupertino_icons: ^1.0.6
+  dio: ^5.4.3+1
+  get_it: ^7.7.0
+  latlong2: ^0.9.1
 
 dev_dependencies:
   flutter_test:

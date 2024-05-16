@@ -2,7 +2,7 @@ import 'package:air_quality/features/home/presentation/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:map/feature/map/presentation/screen/map_screen.dart';
-import '../layout/scaffold_with_nested_navigation.dart';
+import '../../layout/scaffold_with_nested_navigation.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorHomeKey =

@@ -1,6 +1,5 @@
 import 'package:core_libs/dependency_injection/get_it.dart';
 import 'package:core_libs/networks/http/http_service.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:map/feature/map/data/model/marker_dto.dart';
 import 'package:map/feature/map/domain/ports/map/repository.dart';
