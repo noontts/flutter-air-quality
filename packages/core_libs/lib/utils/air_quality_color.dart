@@ -4,7 +4,7 @@ Color aqiToColor(int aqi){
   if (aqi >= 0 && aqi <= 50) {
     return Colors.green;  // Good
   } else if (aqi >= 51 && aqi <= 100) {
-    return Colors.yellow;  // Moderate
+    return Colors.yellow.shade500;  // Moderate
   } else if (aqi >= 101 && aqi <= 150) {
     return Colors.orange;  // Unhealthy for Sensitive Groups
   } else if (aqi >= 151 && aqi <= 200) {
