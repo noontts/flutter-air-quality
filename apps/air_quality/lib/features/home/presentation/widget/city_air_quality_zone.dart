@@ -6,9 +6,6 @@ import 'package:flutter/widgets.dart';
 class CityAirQualityZone extends StatelessWidget {
   const CityAirQualityZone({super.key});
 
-   
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -30,32 +27,6 @@ class CityAirQualityZone extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.search),
-                              iconSize: 35,
-                              color: const Color.fromARGB(255, 0, 0, 0),
-                              onPressed: () {},
-                            ),
-                            const Center(
-                              child: Text(
-                                'No IQ Air',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            ),
-                            const Text("    ") //บังคับให้เว้นสวยๆ
-                          ],
-                        ),
-                      ),
                       const Center(
                         child: Text(
                           '49',
@@ -64,7 +35,6 @@ class CityAirQualityZone extends StatelessWidget {
                             fontSize: 72,
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.none,
-                            
                           ),
                         ),
                       ),
