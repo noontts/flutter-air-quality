@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:core_libs/utils/air_quality_color.dart';
 
 class DailyStatusCard extends StatelessWidget {
   final String date;
@@ -8,19 +9,23 @@ class DailyStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int aqi = 100; 
+    LinearGradient gradient = getAqiGradient(aqi); 
+
     return Center(
       child: SizedBox(
-        width: 80,
-        height: 120,
+        width: 70,
+        height: 110,
         child: Container(
           decoration: BoxDecoration(
+            gradient: gradient,
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                 color: Colors.grey.withOpacity(0.5), // เปลี่ยนความเข้มของสีเงา
+                color: Colors.grey.withOpacity(0.3),
                 spreadRadius: 1,
-                blurRadius: 5, // เพิ่มความเบลอของเงา
-                offset: Offset(0, 5), // ย้ายเงาลงมาด้านล่าง
+                blurRadius: 3,
+                offset: Offset(0, 3),
               ),
             ],
           ),
@@ -32,8 +37,8 @@ class DailyStatusCard extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    const Color.fromARGB(255, 64, 131, 246), //// Middle color
-                    const Color.fromARGB(255, 248, 249, 250), // End color
+                    gradient.colors.first,
+                    const Color.fromARGB(255, 248, 249, 250),
                   ],
                 ),
               ),
@@ -44,16 +49,17 @@ class DailyStatusCard extends StatelessWidget {
                     Text(
                       date,
                       style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black, // Text color
+                        color: Colors.black,
+                        fontSize: 16,
                       ),
                     ),
-                    SizedBox(height: 20), 
+                    SizedBox(height: 20,),
                     Text(
                       number,
                       style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black, // Text color
+                        color: Colors.black,
+                        fontSize: 20, 
+                        fontWeight: FontWeight.bold,  
                       ),
                     ),
                   ],
