@@ -8,12 +8,19 @@ class Pm25Number extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text((aqi).toString(),
-    style: TextStyle(
-        color: aqiToColor(aqi),
-        fontSize: 45,
-        fontWeight: FontWeight.w900
-      ),
+    return Text(
+      (aqi).toString(),
+      style: TextStyle(
+          color: aqiToColor(aqi),
+          fontSize: 45,
+          fontWeight: FontWeight.w900,
+          shadows: [
+            Shadow(
+              blurRadius: 0.1,
+              color: Colors.grey.withOpacity(0.5),
+              offset: const Offset(1.2, 1.2),
+            ),
+          ]),
     );
   }
 }
