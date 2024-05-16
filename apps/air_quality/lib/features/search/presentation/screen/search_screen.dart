@@ -27,21 +27,20 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: EdgeInsets.only(top: 100),
           child: Column(
             children: [
-              SearchZone(), // เรียกใช้ SearchZone ที่ถูกแก้ไขแล้
               SearchFoundCard(
-                location: 'Chaimeang', // แก้ชื่อของพารามิเตอร์เป็น location แทน rocation
+                location: 'Chaimeang', 
                 aqi: 77,
               ),
               SearchFoundCard(
-                location: 'B', // แก้ชื่อของพารามิเตอร์เป็น location แทน rocation
+                location: 'B', 
                 aqi: 49,
               ),
               SearchFoundCard(
-                location: 'C', // แก้ชื่อของพารามิเตอร์เป็น location แทน rocation
+                location: 'C', 
                 aqi: 115,
               ),
               SearchFoundCard(
-                location: 'D', // แก้ชื่อของพารามิเตอร์เป็น location แทน rocation
+                location: 'D', 
                 aqi: 179,
               ),
             ],
