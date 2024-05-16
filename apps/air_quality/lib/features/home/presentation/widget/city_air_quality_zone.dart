@@ -96,13 +96,12 @@ class CityAirQualityZone extends StatelessWidget {
                   ),
                 ),
               ),
-              const Spacer(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 200, 0, 0),
                   child: Container(
                     height: 200,
                     child: Image.asset(
-                      'assets/images/town_main.png', 
+                      '../core/assets/images/town_main.png', 
                       fit: BoxFit.cover, 
                       height: 200,
                       

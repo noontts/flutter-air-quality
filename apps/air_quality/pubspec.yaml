@@ -32,10 +32,7 @@ flutter:
 
 
   assets:
-    - assets/images/PM25Icon.jpeg
-    - assets/images/PM10Icon.png
-    - assets/images/OzoneIcon.png
-    - assets/images/UVIcon.png
-    - assets/images/town_main.png
+    - ../core/assets/images/
+
 
  
