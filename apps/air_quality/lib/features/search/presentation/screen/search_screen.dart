@@ -19,14 +19,15 @@ class _SearchScreenState extends State<SearchScreen> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF47F5F5), Color(0xFFE7FFFF)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
           ),
         ),
         child: const Padding(
           padding: EdgeInsets.only(top: 100),
           child: Column(
             children: [
+              SearchZone(), 
               SearchFoundCard(
                 location: 'Chaimeang', 
                 aqi: 77,
