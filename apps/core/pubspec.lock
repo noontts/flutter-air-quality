@@ -55,6 +55,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  core_ui:
+    dependency: "direct overridden"
+    description:
+      path: "../../packages/core_ui"
+      relative: true
+    source: path
+    version: "0.0.1"
   cupertino_icons:
     dependency: "direct main"
     description:
