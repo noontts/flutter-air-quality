@@ -1,4 +1,5 @@
 import 'package:air_quality/features/home/presentation/widget/observation_card.dart';
+import 'package:core_ui/section_texts/my_air_text_header.dart';
 import 'package:flutter/material.dart';
 
 class CurrentObservation extends StatelessWidget {
@@ -10,18 +11,7 @@ class CurrentObservation extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Column(
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: const Text(
-                'Current Observation',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.black,
-                  decoration: TextDecoration.none,
-                ),
-              ),
-            ),
+            const MyAirTextHeader(title: 'Current Observation',),
             Container(
               height: 200,
               margin: EdgeInsets.zero,

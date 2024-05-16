@@ -16,6 +16,8 @@ dependencies:
 
   core_libs:
     path: ../../packages/core_libs
+  core_ui:
+    path: ../../packages/core_ui
 
   cupertino_icons: ^1.0.6
 
