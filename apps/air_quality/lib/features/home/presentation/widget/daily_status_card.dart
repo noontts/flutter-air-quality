@@ -3,14 +3,13 @@ import 'package:core_libs/utils/air_quality_color.dart';
 
 class DailyStatusCard extends StatelessWidget {
   final String date;
-  final String number;
+  final int number;
 
   const DailyStatusCard({required this.date, required this.number});
 
   @override
   Widget build(BuildContext context) {
-    int aqi = 100; 
-    LinearGradient gradient = getAqiGradient(aqi); 
+    LinearGradient gradient = getAqiGradient(number); 
 
     return Center(
       child: SizedBox(
@@ -33,14 +32,7 @@ class DailyStatusCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    gradient.colors.first,
-                    const Color.fromARGB(255, 248, 249, 250),
-                  ],
-                ),
+                gradient:gradient
               ),
               child: Center(
                 child: Column(
@@ -55,7 +47,7 @@ class DailyStatusCard extends StatelessWidget {
                     ),
                     SizedBox(height: 20,),
                     Text(
-                      number,
+                      (number.toString()),
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20, 

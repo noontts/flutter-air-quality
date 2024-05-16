@@ -18,7 +18,7 @@ class DailyCard extends StatelessWidget {
             padding: EdgeInsets.all(8.0), // Add padding between cards
             child: DailyStatusCard(
               date: '${15 + index} May', // Assuming dates increment from May 15
-              number: '${100 + index}', // Optional: Adjust height as needed
+              number: 40, // Optional: Adjust height as needed
             ),
           );
         },
