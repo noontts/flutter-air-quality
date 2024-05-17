@@ -1,7 +1,7 @@
 import 'package:air_quality/features/home/data/model/aqi_dto.dart';
 import 'package:air_quality/features/home/domain/entities/aqi.dart';
 import 'package:air_quality/features/home/domain/ports/aqi/services.dart';
-import 'package:air_quality/features/search/presentation/viewmodels/home_state.dart';
+import 'package:air_quality/features/home/presentation/viewmodels/home_state.dart';
 import 'package:core_libs/dependency_injection/get_it.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,7 +11,7 @@ part 'home_view_model.g.dart';
 @riverpod
 class HomeViewModel extends _$HomeViewModel {
   IAQIService service = getIt.get<IAQIService>();
-  final defaultDew = Dew(v: null);
+  final defaultDew = Dew(v: 0);
 
   @override
   HomeState build() => HomeState(
@@ -41,6 +41,17 @@ class HomeViewModel extends _$HomeViewModel {
     state = state.copyWith(
         loading: false,
         aqiToDisplay: response,
+    );
+  }
+
+  void getCurrentAqiDetailById(int id) async {
+    state = state.copyWith(loading: true);
+
+    final response = await service.getAqiDetailById(id);
+
+    state = state.copyWith(
+      loading: false,
+      aqiToDisplay: response,
     );
   }
 }

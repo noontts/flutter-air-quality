@@ -3,7 +3,6 @@ import 'package:air_quality/features/search/domain/ports/search/services.dart';
 import 'package:air_quality/features/search/presentation/widget/search_found_card.dart';
 import 'package:air_quality/features/search/presentation/widget/search_zone.dart';
 import 'package:core_libs/dependency_injection/get_it.dart';
-import 'package:core_libs/utils/air_quality_color.dart';
 import 'package:core_libs/utils/debounce.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     location: searchResult[index].city,
                     aqi: searchResult[index].pm25,
                     latLng: searchResult[index].latlng,
+                    stationId: searchResult[index].stationId,
                   );
                 },
               ),

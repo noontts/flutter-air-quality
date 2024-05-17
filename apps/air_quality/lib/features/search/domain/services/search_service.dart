@@ -13,6 +13,7 @@ class SearchService implements ISearchService {
 
     return rawResponse.data!
         .map((e) => SearchResult(
+            stationId: e.uid!,
             city: e.station!.name!, 
             pm25: e.aqi == '-' ? 0 : int.parse(e.aqi!),
             latlng: LatLng(e.station!.geo![0], e.station!.geo![1]),

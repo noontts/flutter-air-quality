@@ -1,4 +1,4 @@
-import 'package:air_quality/features/search/presentation/viewmodels/home_view_model.dart';
+import 'package:air_quality/features/home/presentation/viewmodels/home_view_model.dart';
 import 'package:core_libs/utils/air_quality_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,10 +10,12 @@ class SearchFoundCard extends ConsumerWidget {
       {super.key,
       required this.location,
       required this.aqi,
-      required this.latLng});
+      required this.latLng,
+      required this.stationId});
 
   final String location;
   final int aqi;
+  final int stationId;
   final LatLng latLng;
 
   @override
@@ -25,7 +27,7 @@ class SearchFoundCard extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: GestureDetector(
         onTap: () {
-          homeNotifier.getCurrentAqiDetail(latLng);
+          homeNotifier.getCurrentAqiDetailById(stationId);
           context.pop();
         },
         child: Container(
