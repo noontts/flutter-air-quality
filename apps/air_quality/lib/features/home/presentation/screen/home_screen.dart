@@ -34,14 +34,35 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: const Column(
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: Text('No IQ Air'),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            //do someting
+          }, icon: Icon(Icons.search),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+              //do someting
+              },
+               icon: Icon(Icons.menu),
+              ),
+          ],
+        backgroundColor: Colors.transparent,
+      ),
+      body: Container(
+        color: Colors.white,
+        child: const Column(
         children: [
             SizedBox(height: 400, child: Stack(children: [CityAirQualityZone()])),
             SizedBox(height: 250,child: CurrentObservation()),
             // SizedBox(height: 200,child: CurrentObservation()),
         ],
+       ) ,
       ),
     );
   }
