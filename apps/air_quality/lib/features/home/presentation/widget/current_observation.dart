@@ -2,8 +2,11 @@ import 'package:air_quality/features/home/presentation/widget/observation_card.d
 import 'package:core_ui/section_texts/my_air_text_header.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/model/aqi_dto.dart';
+
 class CurrentObservation extends StatelessWidget {
-  const CurrentObservation({Key? key});
+  final Iaqi observationAQI;
+  const CurrentObservation({super.key, required this.observationAQI});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,6 @@ class CurrentObservation extends StatelessWidget {
             Container(
               height: 200,
               margin: EdgeInsets.zero,
-      
               child: MediaQuery.removePadding( //คุมเพราะ เวลาใช้ grid view มันจะเว้นข้างบน (งงว่าทำไมมันต้องเว้น)
                 context: context,
                 removeTop: true,
@@ -25,23 +27,23 @@ class CurrentObservation extends StatelessWidget {
                   children: [
                     ObservationCard(
                       indexMaidex: 1,
-                      textTitle: 'PM2.5',
-                      textSubTitle: 'idk',
+                      textTitle: 'Temp',
+                      textSubTitle: '${observationAQI.t!.v.toString()} °C',
                     ),
                     ObservationCard(
                       indexMaidex: 2,
                       textTitle: 'PM10',
-                      textSubTitle: 'idk',
+                      textSubTitle: '${observationAQI.pm10!.v.toString()} µg/m3',
                     ),
                     ObservationCard(
                       indexMaidex: 3,
                       textTitle: 'Ozone',
-                      textSubTitle: 'idk',
+                      textSubTitle: '${observationAQI.o3!.v.toString()} µg/m3',
                     ),
                     ObservationCard(
                       indexMaidex: 4,
-                      textTitle: 'UV index',
-                      textSubTitle: 'idk',
+                      textTitle: 'Wind',
+                      textSubTitle: '${observationAQI.w!.v.toString()} M/S',
                     ),
                   ],
                 ),
