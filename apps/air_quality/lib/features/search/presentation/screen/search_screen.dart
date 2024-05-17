@@ -1,8 +1,13 @@
+import 'package:air_quality/features/search/domain/entities/search_result.dart';
+import 'package:air_quality/features/search/domain/ports/search/services.dart';
 import 'package:air_quality/features/search/presentation/widget/search_found_card.dart';
 import 'package:air_quality/features/search/presentation/widget/search_zone.dart';
+import 'package:core_libs/dependency_injection/get_it.dart';
 import 'package:core_libs/utils/air_quality_color.dart';
+import 'package:core_libs/utils/debounce.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -12,8 +17,25 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  List<SearchResult> searchResult = [];
+  ISearchService service = getIt.get<ISearchService>();
+  final _debounce = Debounce(milliseconds: 350);
+
+  void getSearchByKeyword(String keyword) async {
+    final response = await service.getSearchByKeyword(keyword);
+    setState(() {
+      searchResult = response;
+    });
+  }
+
+  void onSearch(String keyword) {
+    _debounce.run(() {
+      getSearchByKeyword(keyword);
+    });
+  }
+
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Search'),
@@ -26,28 +48,22 @@ class _SearchScreenState extends State<SearchScreen> {
             end: Alignment.topCenter,
           ),
         ),
-          child: Column(
-            children: [
-              SearchZone(), 
-              SearchFoundCard(
-                location: 'Chaimeang', 
-                aqi: 77,
+        child: Column(
+          children: [
+            SearchZone(
+              onSearch: onSearch,
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: searchResult.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SearchFoundCard(location: searchResult[index].city, aqi: searchResult[index].pm25);
+                },
               ),
-              SearchFoundCard(
-                location: 'B', 
-                aqi: 49,
-              ),
-              SearchFoundCard(
-                location: 'C', 
-                aqi: 115,
-              ),
-              SearchFoundCard(
-                location: 'D', 
-                aqi: 179,
-              ),
-            ],
-          ),
+            )
+          ],
         ),
+      ),
     );
   }
 }
