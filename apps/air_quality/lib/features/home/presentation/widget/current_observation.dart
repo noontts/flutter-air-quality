@@ -22,6 +22,7 @@ class CurrentObservation extends StatelessWidget {
                 context: context,
                 removeTop: true,
                 child: GridView.count(
+                  physics: NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
                   childAspectRatio: (1 / .5),
                   children: [
