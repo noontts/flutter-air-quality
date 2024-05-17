@@ -5,6 +5,7 @@ import 'package:air_quality/features/home/presentation/widget/current_observatio
 import 'package:core_libs/dependency_injection/get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:go_router/go_router.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -41,28 +42,31 @@ class _HomepageState extends State<Homepage> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            //do someting
+             context.push('/search');
           }, icon: Icon(Icons.search),
           ),
           actions: [
             IconButton(
               onPressed: () {
-              //do someting
               },
                icon: Icon(Icons.menu),
               ),
           ],
         backgroundColor: Colors.transparent,
       ),
-      body: Container(
-        color: Colors.white,
-        child: const Column(
+      body: ListView(
         children: [
-            SizedBox(height: 400, child: Stack(children: [CityAirQualityZone()])),
-            SizedBox(height: 250,child: CurrentObservation()),
-            // SizedBox(height: 200,child: CurrentObservation()),
+          Container(
+            color: Colors.white,
+            child: const Column(
+            children: [
+                SizedBox(height: 400, child: Stack(children: [CityAirQualityZone()])),
+                SizedBox(height: 250,child: CurrentObservation()),
+                // SizedBox(height: 200,child: CurrentObservation()),
+            ],
+           ) ,
+          ),
         ],
-       ) ,
       ),
     );
   }

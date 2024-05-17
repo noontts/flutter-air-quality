@@ -1,4 +1,5 @@
 import 'package:air_quality/features/home/presentation/screen/home_screen.dart';
+import 'package:air_quality/features/search/presentation/screen/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:map/feature/map/presentation/screen/map_screen.dart';
@@ -6,12 +7,12 @@ import '../../layout/scaffold_with_nested_navigation.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorHomeKey =
-GlobalKey<NavigatorState>(debugLabel: 'shellHome');
+    GlobalKey<NavigatorState>(debugLabel: 'shellHome');
 final _shellNavigatorProfileKey =
-GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
+    GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
 
 final router =
-GoRouter(initialLocation: '/', navigatorKey: _rootNavigatorKey, routes: [
+    GoRouter(initialLocation: '/', navigatorKey: _rootNavigatorKey, routes: [
   StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
@@ -21,15 +22,20 @@ GoRouter(initialLocation: '/', navigatorKey: _rootNavigatorKey, routes: [
           GoRoute(
               path: '/',
               pageBuilder: (context, state) =>
-              const NoTransitionPage(child: Homepage()),
-              routes: []
-          ),
+                  const NoTransitionPage(child: Homepage()),
+              routes: [
+                GoRoute(
+                    path: 'search',
+                    builder: (context, state) {
+                      return const SearchScreen();
+                    })
+              ]),
         ]),
         StatefulShellBranch(navigatorKey: _shellNavigatorProfileKey, routes: [
           GoRoute(
             path: '/map',
             pageBuilder: (context, state) =>
-            const NoTransitionPage(child: MapScreen()),
+                const NoTransitionPage(child: MapScreen()),
           )
         ])
       ])

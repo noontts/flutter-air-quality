@@ -15,6 +15,9 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
    Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Search'),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -23,8 +26,6 @@ class _SearchScreenState extends State<SearchScreen> {
             end: Alignment.topCenter,
           ),
         ),
-        child: const Padding(
-          padding: EdgeInsets.only(top: 100),
           child: Column(
             children: [
               SearchZone(), 
@@ -47,7 +48,6 @@ class _SearchScreenState extends State<SearchScreen> {
             ],
           ),
         ),
-      ),
     );
   }
 }
