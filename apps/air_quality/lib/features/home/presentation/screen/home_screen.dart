@@ -17,6 +17,7 @@ class _HomepageState extends State<Homepage> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text('No IQ Air'),
+        centerTitle: true,
         leading: IconButton(
           onPressed: () {
             //do someting
