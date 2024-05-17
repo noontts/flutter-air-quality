@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -14,8 +13,8 @@ class MyAirTextHeader extends StatelessWidget {
       child: Text(
         title,
         style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
           color: Colors.black,
           decoration: TextDecoration.none,
         ),

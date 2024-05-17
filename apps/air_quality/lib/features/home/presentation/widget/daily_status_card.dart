@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:core_libs/utils/air_quality_color.dart';
+import 'package:moment_dart/moment_dart.dart';
 
 class DailyStatusCard extends StatelessWidget {
   final String date;
   final int number;
 
-  const DailyStatusCard({required this.date, required this.number});
+  const DailyStatusCard({super.key, required this.date, required this.number});
 
   @override
   Widget build(BuildContext context) {
-    LinearGradient gradient = getAqiGradient(number); 
+    LinearGradient gradient = getAqiGradient(number);
 
     return Center(
       child: SizedBox(
@@ -31,27 +32,28 @@ class DailyStatusCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Container(
-              decoration: BoxDecoration(
-                gradient:gradient
-              ),
+              decoration: BoxDecoration(gradient: gradient),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      date,
-                      style: TextStyle(
+                      Moment(DateTime.parse(date)).format("DD/MM"),
+                      style: const TextStyle(
                         color: Colors.black,
+                        fontWeight: FontWeight.w700,
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Text(
                       (number.toString()),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 20, 
-                        fontWeight: FontWeight.bold,  
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
