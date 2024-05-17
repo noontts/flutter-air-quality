@@ -20,11 +20,11 @@ class DailyCard extends StatelessWidget {
             itemCount: 7,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
-                padding: EdgeInsets.all(8.0), // Add padding between cards
+                padding: EdgeInsets.all(8.0), 
                 child: DailyStatusCard(
                   date:
-                      '${15 + index} May', // Assuming dates increment from May 15
-                  number: 40, // Optional: Adjust height as needed
+                      '${15 + index} May', 
+                  number: 40, 
                 ),
               );
             },
