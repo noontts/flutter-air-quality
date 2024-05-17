@@ -53,6 +53,7 @@ class _HomepageState extends ConsumerState<Homepage> {
   @override
   Widget build(BuildContext context) {
     final homeVM = ref.watch(homeViewModelProvider);
+    final homeNotifier = ref.read(homeViewModelProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +67,9 @@ class _HomepageState extends ConsumerState<Homepage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              homeNotifier.getCurrentAqiDetail(mockCurrentLatLng);
+            },
             icon: const Icon(Icons.gps_fixed),
           ),
         ],

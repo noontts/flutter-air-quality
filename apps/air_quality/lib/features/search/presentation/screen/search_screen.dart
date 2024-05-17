@@ -57,7 +57,11 @@ class _SearchScreenState extends State<SearchScreen> {
               child: ListView.builder(
                 itemCount: searchResult.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return SearchFoundCard(location: searchResult[index].city, aqi: searchResult[index].pm25);
+                  return SearchFoundCard(
+                    location: searchResult[index].city,
+                    aqi: searchResult[index].pm25,
+                    latLng: searchResult[index].latlng,
+                  );
                 },
               ),
             )
