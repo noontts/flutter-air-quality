@@ -1,11 +1,18 @@
 
 import 'dart:ui';
 
+import 'package:air_quality/features/home/domain/ports/aqi/services.dart';
+import 'package:air_quality/features/search/domain/entities/search_result.dart';
+import 'package:air_quality/features/search/domain/ports/search/services.dart';
+import 'package:core_libs/dependency_injection/get_it.dart';
+import 'package:core_libs/utils/debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SearchZone extends StatefulWidget {
-  const SearchZone({super.key});
+  const SearchZone({super.key , required this.onSearch});
+
+  final Function(String) onSearch;
 
   @override
   _SearchZoneState createState() => _SearchZoneState();
@@ -14,11 +21,17 @@ class SearchZone extends StatefulWidget {
 class _SearchZoneState extends State<SearchZone> {
   final TextEditingController _controller = TextEditingController();
 
+ 
+  
+  
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -50,15 +63,12 @@ class _SearchZoneState extends State<SearchZone> {
                             icon: const Icon(Icons.clear, color: Colors.grey),
                             onPressed: () {
                               _controller.clear();
-                              setState(() {});  // Refresh the UI
+                              setState(() {}); 
                             },
                           )
                         : null,
                     filled: true,
                     fillColor: Colors.white,
-                    // border: OutlineInputBorder(
-                    //   borderRadius: BorderRadius.circular(10),
-                    // ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ) ,
@@ -69,9 +79,7 @@ class _SearchZoneState extends State<SearchZone> {
                     contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                   ),
                   style: const TextStyle(fontSize: 20 ),
-                  onChanged: (text) {
-                    setState(() {});  
-                  },
+                  onChanged: widget.onSearch,
                 ),
               ),
             ],
