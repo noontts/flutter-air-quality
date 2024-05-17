@@ -14,7 +14,7 @@ class ObservationCard extends StatelessWidget {
 
     switch (indexMaidex) {
       case 1:
-        imageObservationCard = '../core/assets/images/PM25Icon.jpeg';
+        imageObservationCard = '../core/assets/images/temp.png';
         break;
       case 2:
         imageObservationCard = '../core/assets/images/PM10Icon.png';
@@ -23,7 +23,7 @@ class ObservationCard extends StatelessWidget {
         imageObservationCard = '../core/assets/images/OzoneIcon.png';
         break;
       case 4:
-        imageObservationCard = '../core/assets/images/UVIcon.png';
+        imageObservationCard = '../core/assets/images/wind.png';
         break;
       default:
         imageObservationCard = '';
@@ -51,8 +51,8 @@ class ObservationCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                title: Text(textTitle , style: const TextStyle(fontSize: 12 , fontWeight: FontWeight.normal),),
-                subtitle: Text(textSubTitle, style: const TextStyle(fontSize: 12 , fontWeight: FontWeight.normal),),
+                title: Text(textTitle , style: const TextStyle(fontSize: 15 , fontWeight: FontWeight.w700),),
+                subtitle: Text(overflow: TextOverflow.ellipsis,textSubTitle, style: const TextStyle(fontSize: 14 , fontWeight: FontWeight.normal),),
               ),
             ],
           ),

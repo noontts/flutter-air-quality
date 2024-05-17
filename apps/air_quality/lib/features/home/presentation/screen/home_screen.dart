@@ -18,6 +18,7 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   final mockCurrentLatLng = const LatLng(18.80823885274427, 98.9541342695303);
   IAQIService service = getIt.get<IAQIService>();
+  late LatLng currentLatLng;
   late AqiToDisplay aqiToDisplay;
 
   @override
@@ -26,7 +27,7 @@ class _HomepageState extends State<Homepage> {
     getCurrentAqiDetail(mockCurrentLatLng);
   }
 
-  void getCurrentAqiDetail(LatLng latLng) async{
+  void getCurrentAqiDetail(LatLng latLng) async {
     final response = await service.getAqiDetailByLatLng(latLng);
 
     setState(() {
@@ -37,35 +38,44 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('No IQ Air'),
+        title: const Text('No IQ Air'),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-             context.push('/search');
-          }, icon: Icon(Icons.search),
+            context.push('/search');
+          },
+          icon: const Icon(Icons.search),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.gps_fixed),
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-              },
-               icon: Icon(Icons.menu),
-              ),
-          ],
+        ],
         backgroundColor: Colors.transparent,
       ),
       body: ListView(
         children: [
           Container(
             color: Colors.white,
-            child: const Column(
-            children: [
-                SizedBox(height: 400, child: Stack(children: [CityAirQualityZone()])),
-                SizedBox(height: 250,child: CurrentObservation()),
-                SizedBox(height: 200,child: DailyCard()),
-            ],
-           ) ,
+            child: Column(
+              children: [
+                SizedBox(
+                    height: 450,
+                    child: Stack(children: [
+                      CityAirQualityZone(
+                        aqiPm: (aqiToDisplay.aqiList.pm25?.v)!.toInt(),
+                        stationName: aqiToDisplay.stationName,
+                      )
+                    ])),
+                SizedBox(
+                    height: 250,
+                    child: CurrentObservation(
+                      observationAQI: aqiToDisplay.aqiList,
+                    )),
+              ],
+            ),
           ),
         ],
       ),
