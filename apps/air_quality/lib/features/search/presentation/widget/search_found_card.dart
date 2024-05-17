@@ -38,11 +38,12 @@ class SearchFoundCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 200,
+                  width: 180,
                   child: Text(
                     location,
+                    maxLines: 2,
                     style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         color: Colors.black,
                         fontWeight: FontWeight.normal,
                         decoration: TextDecoration.none),
@@ -55,7 +56,7 @@ class SearchFoundCard extends StatelessWidget {
                     Text('$aqi',
                         style: TextStyle(
                           color: textcolor,
-                          fontSize: 36,
+                          fontSize: 32,
                           fontWeight: FontWeight.w600,
                           decoration: TextDecoration.none,
                           shadows: [
