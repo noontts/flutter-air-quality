@@ -5,20 +5,22 @@ import 'package:air_quality/features/home/presentation/widget/city_air_quality_z
 import 'package:air_quality/features/home/presentation/widget/current_observation.dart';
 import 'package:air_quality/features/home/presentation/widget/daily_card.dart';
 import 'package:air_quality/features/home/presentation/widget/loading.dart';
+import 'package:air_quality/features/search/presentation/viewmodels/home_view_model.dart';
 import 'package:core_libs/dependency_injection/get_it.dart';
 import 'package:core_libs/utils/quote.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:go_router/go_router.dart';
 
-class Homepage extends StatefulWidget {
+class Homepage extends ConsumerStatefulWidget {
   const Homepage({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  ConsumerState<Homepage> createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _HomepageState extends ConsumerState<Homepage> {
   final mockCurrentLatLng = const LatLng(18.80823885274427, 98.9541342695303);
   IAQIService service = getIt.get<IAQIService>();
   late LatLng currentLatLng;
@@ -29,22 +31,16 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
-    loading = true;
-    getCurrentAqiDetail(mockCurrentLatLng);
     updateQuote();
+
+    Future(() {
+      ref
+          .read(homeViewModelProvider.notifier)
+          .getCurrentAqiDetail(mockCurrentLatLng);
+    });
 
     Timer.periodic(const Duration(seconds: 15), (timer) {
       updateQuote();
-    });
-  }
-
-  void getCurrentAqiDetail(LatLng latLng) async {
-    loading = true;
-    final response = await service.getAqiDetailByLatLng(latLng);
-
-    setState(() {
-      aqiToDisplay = response;
-      loading = false;
     });
   }
 
@@ -56,6 +52,8 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
+    final homeVM = ref.watch(homeViewModelProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('No IQ Air'),
@@ -74,7 +72,7 @@ class _HomepageState extends State<Homepage> {
         ],
         backgroundColor: Colors.transparent,
       ),
-      body: loading
+      body: homeVM.loading
           ? const LoadingFullScreen()
           : ListView(
               children: [
@@ -86,8 +84,9 @@ class _HomepageState extends State<Homepage> {
                           height: 450,
                           child: Stack(children: [
                             CityAirQualityZone(
-                              aqiPm: (aqiToDisplay.aqiList.pm25?.v)!.toInt(),
-                              stationName: aqiToDisplay.stationName,
+                              aqiPm: (homeVM.aqiToDisplay.aqiList.pm25?.v)!
+                                  .toInt(),
+                              stationName: homeVM.aqiToDisplay.stationName,
                             )
                           ])),
                       SizedBox(
@@ -99,7 +98,8 @@ class _HomepageState extends State<Homepage> {
                               Text(
                                 quote,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
                               ),
                               const Text(
                                 '- ทีม Dev ที่เอามาจาก google อีกที',
@@ -113,9 +113,9 @@ class _HomepageState extends State<Homepage> {
                       SizedBox(
                           height: 250,
                           child: CurrentObservation(
-                            observationAQI: aqiToDisplay.aqiList,
+                            observationAQI: homeVM.aqiToDisplay.aqiList,
                           )),
-                      DailyCard(forecastPM25: aqiToDisplay.forecastPM25)
+                      DailyCard(forecastPM25: homeVM.aqiToDisplay.forecastPM25)
                     ],
                   ),
                 ),

@@ -1,22 +1,28 @@
 
+import 'package:air_quality/features/search/presentation/viewmodels/home_view_model.dart';
 import 'package:core_libs/utils/air_quality_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 
-class SearchFoundCard extends StatelessWidget {
+class SearchFoundCard extends ConsumerWidget {
   const SearchFoundCard({super.key, required this.location, required this.aqi});
 
   final String location;
   final int aqi;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textcolor = aqiToColor(aqi);
+    final homeNotifier = ref.read(homeViewModelProvider.notifier);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10 , horizontal: 20),
       child: GestureDetector(
         onTap: () {
-          
+          homeNotifier.getCurrentAqiDetail(LatLng(1, 2));
+          context.pop();
         },
         child: Container(
           decoration: BoxDecoration(
