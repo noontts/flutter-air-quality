@@ -1,9 +1,11 @@
+import 'package:latlong2/latlong.dart';
+
 class SearchResult{
 
   final String city;
   final int pm25;
-  late final double lati;
-  late final double longti;
+  final LatLng latlng;
 
-  SearchResult({required this.city , required this.pm25 , required this.lati , required this.longti});
+
+  SearchResult({required this.city , required this.pm25 , required this.latlng});
 }
