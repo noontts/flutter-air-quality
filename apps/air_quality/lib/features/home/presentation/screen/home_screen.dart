@@ -20,18 +20,22 @@ class _HomepageState extends State<Homepage> {
   IAQIService service = getIt.get<IAQIService>();
   late LatLng currentLatLng;
   late AqiToDisplay aqiToDisplay;
+  var loading = true;
 
   @override
   void initState() {
     super.initState();
+    loading = true;
     getCurrentAqiDetail(mockCurrentLatLng);
   }
 
   void getCurrentAqiDetail(LatLng latLng) async {
+    loading = true;
     final response = await service.getAqiDetailByLatLng(latLng);
 
     setState(() {
       aqiToDisplay = response;
+      loading = false;
     });
   }
 
@@ -74,6 +78,7 @@ class _HomepageState extends State<Homepage> {
                     child: CurrentObservation(
                       observationAQI: aqiToDisplay.aqiList,
                     )),
+                DailyCard(forecastPM25: aqiToDisplay.forecastPM25)
               ],
             ),
           ),
