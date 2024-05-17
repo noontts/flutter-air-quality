@@ -3,4 +3,5 @@ import 'package:latlong2/latlong.dart';
 
 abstract class IAQIService {
   Future<AqiToDisplay> getAqiDetailByLatLng(LatLng latLng);
+  Future<AqiToDisplay> getAqiDetailById(int id);
 }

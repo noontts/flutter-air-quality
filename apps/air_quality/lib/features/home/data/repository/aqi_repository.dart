@@ -15,4 +15,12 @@ class AQIRepository implements IAQIRepository {
 
     return AQIDetailResponse.fromJson(response);
   }
+
+  @override
+  Future<AQIDetailResponse> getAqiDetailById(int id) async{
+    final response = await httpService.get(
+        '/feed/@${id}/?token=${token}');
+
+    return AQIDetailResponse.fromJson(response);
+  }
 }
