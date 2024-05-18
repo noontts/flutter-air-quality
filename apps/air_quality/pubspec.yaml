@@ -46,5 +46,5 @@ flutter:
 
 
   assets:
-#    - ../core/assets/images/
-#    - ../core/assets/lotties/
+    - assets/images/
+    - assets/lotties/
