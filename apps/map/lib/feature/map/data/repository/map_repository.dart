@@ -11,7 +11,7 @@ class MapRepository implements IMapRepository {
   @override
   Future<MarkerResponse> getMarkerByBounds(LatLng latLng1, LatLng latLng2) async {
     final response = await httpService.get(
-        '/map/bounds?token=${token}&latlng=${latLng1.latitude},${latLng1.longitude},${latLng2.latitude},${latLng2.longitude}'
+        '/v2/map/bounds?token=${token}&latlng=${latLng1.latitude},${latLng1.longitude},${latLng2.latitude},${latLng2.longitude}'
     );
     return MarkerResponse.fromJson(response);
   }
