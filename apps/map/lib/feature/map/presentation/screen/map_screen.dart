@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:core_libs/dependency_injection/get_it.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:map/feature/map/domain/ports/map/services.dart';
 import 'package:core_libs/utils/debounce.dart';
@@ -26,6 +29,7 @@ class _MapScreenState extends State<MapScreen> {
   final _debounce = Debounce(milliseconds: 350);
   List<Marker> fullListMarker = [];
   List<Marker> visibleMarker = [];
+  final _mapController = MapController();
   String stationName = '';
   int aqi = 0;
 
@@ -35,7 +39,7 @@ class _MapScreenState extends State<MapScreen> {
   );
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
 
@@ -75,55 +79,79 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    StreamController<LocationMarkerPosition?> streamController = StreamController<LocationMarkerPosition?>();
+    streamController.add(LocationMarkerPosition(latitude: mockLatLng[0], longitude: mockLatLng[1], accuracy: 1));
+
     return Scaffold(
-      body: SlidingUpPanel(
-        controller: _pc,
-        borderRadius: radius,
-        maxHeight: 200,
-        minHeight: 0,
-        panel: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Pm25Number(aqi: aqi),
-                      const SizedBox(width: 20),
-                      Pm25Info(name: stationName, aqi: aqi),
-                    ],
+        body: SlidingUpPanel(
+          controller: _pc,
+          borderRadius: radius,
+          maxHeight: 200,
+          minHeight: 0,
+          panel: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Pm25Number(aqi: aqi),
+                        const SizedBox(width: 20),
+                        Pm25Info(name: stationName, aqi: aqi),
+                      ],
+                    ),
                   ),
-                ),
-                const GradientAqi()
-              ],
+                  const GradientAqi()
+                ],
+              ),
             ),
           ),
-        ),
-        body: Center(
-          child: FlutterMap(
-              options: MapOptions(
-                onTap: (_, point) async {
-                  await _pc.hide();
-                },
-                initialCenter: LatLng(mockLatLng[0], mockLatLng[1]),
-                initialZoom: 14,
-                onPositionChanged: (position, _) {
-                  _debounce.run(() {
-                    setState(() {
-                      getListMarker(position);
+          body: Center(
+            child: FlutterMap(
+                mapController: _mapController,
+                options: MapOptions(
+                  onTap: (_, point) async {
+                    await _pc.hide();
+                  },
+                  initialCenter: LatLng(mockLatLng[0], mockLatLng[1]),
+                  initialZoom: 14,
+                  onPositionChanged: (position, _) {
+                    _debounce.run(() {
+                      setState(() {
+                        getListMarker(position);
+                      });
                     });
-                  });
-                },
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  },
                 ),
-                MarkerLayer(markers: visibleMarker),
-              ]),
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  ),
+                  MarkerLayer(markers: visibleMarker),
+                  CurrentLocationLayer(
+                    positionStream: streamController.stream,
+                      style: const LocationMarkerStyle(
+                    marker: DefaultLocationMarker(
+                      child: Icon(
+                        Icons.navigation,
+                        color: Colors.white,
+                      ),
+                    ),
+                    markerSize: Size(40, 40),
+                  ))
+                ]),
+          ),
         ),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _mapController.move(LatLng(mockLatLng[0], mockLatLng[1]), 14);
+          },
+          backgroundColor: Colors.white,
+          child: const Icon(Icons.gps_fixed),
+        ),
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniStartTop);
   }
 }
