@@ -11,6 +11,7 @@ import 'package:core_libs/utils/debounce.dart';
 import 'package:map/feature/map/presentation/widget/gradient_aqi.dart';
 import 'package:map/feature/map/presentation/widget/pm_25_info.dart';
 import 'package:map/feature/map/presentation/widget/pm_25_number.dart';
+import 'package:map/feature/map/presentation/widget/request_permission.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../widget/marker_pm.dart';
@@ -36,10 +37,12 @@ class _MapScreenState extends State<MapScreen> {
   late AlignOnUpdate _alignPositionOnUpdate;
   late final StreamController<double?> _alignPositionStreamController;
   late LatLng? _currentLocation;
+  late bool positionPermission;
 
   @override
   void initState() {
     super.initState();
+    positionPermission = false;
     _pc = PanelController();
     service = getIt.get<IMapService>();
     mockLatLng = [18.80823885274427, 98.9541342695303];
@@ -71,16 +74,24 @@ class _MapScreenState extends State<MapScreen> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // Handle denied permission
+        setState(() {
+          positionPermission = false;
+        });
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // Handle permanently denied permission
+      setState(() {
+        positionPermission = false;
+      });
     }
 
     if (permission == LocationPermission.whileInUse ||
-        permission == LocationPermission.always) {}
+        permission == LocationPermission.always) {
+      setState(() {
+        positionPermission = true;
+      });
+    }
   }
 
   Future<void> _getCurrentLocation() async {
@@ -132,66 +143,72 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SlidingUpPanel(
-          controller: _pc,
-          borderRadius: radius,
-          maxHeight: 200,
-          minHeight: 0,
-          panel: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Row(
+        body: !positionPermission
+            ? RequestPermissionGPS(checkPermission: _checkLocationPermission,)
+            : SlidingUpPanel(
+                controller: _pc,
+                borderRadius: radius,
+                maxHeight: 200,
+                minHeight: 0,
+                panel: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
+                    child: Column(
                       children: [
-                        Pm25Number(aqi: aqi),
-                        const SizedBox(width: 20),
-                        Pm25Info(name: stationName, aqi: aqi),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Pm25Number(aqi: aqi),
+                              const SizedBox(width: 20),
+                              Pm25Info(name: stationName, aqi: aqi),
+                            ],
+                          ),
+                        ),
+                        const GradientAqi()
                       ],
                     ),
                   ),
-                  const GradientAqi()
-                ],
-              ),
-            ),
-          ),
-          body: Center(
-            child: FlutterMap(
-                mapController: _mapController,
-                options: MapOptions(
-                  onTap: (_, point) async {
-                    await _pc.hide();
-                  },
-                  initialCenter: _currentLocation ?? LatLng(mockLatLng[0], mockLatLng[1]),
-                  initialZoom: 13,
-                  onPositionChanged: (position, hasGesture) {
-                    if (hasGesture &&
-                        _alignPositionOnUpdate != AlignOnUpdate.never) {
-                      setState(
-                        () => _alignPositionOnUpdate = AlignOnUpdate.never,
-                      );
-                    }
-                    _debounce.run(() {
-                      setState(() {
-                        getListMarker(position);
-                      });
-                    });
-                  },
                 ),
-                children: [
-                  TileLayer(
-                    urlTemplate:
-                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  ),
-                  MarkerLayer(markers: visibleMarker),
-                  CurrentLocationLayer(
-                    alignPositionStream: _alignPositionStreamController.stream,
-                    alignPositionOnUpdate: _alignPositionOnUpdate,
-                  )
-                ]),
-          ),
-        ),
+                body: Center(
+                  child: FlutterMap(
+                      mapController: _mapController,
+                      options: MapOptions(
+                        onTap: (_, point) async {
+                          await _pc.hide();
+                        },
+                        initialCenter: _currentLocation ??
+                            LatLng(mockLatLng[0], mockLatLng[1]),
+                        initialZoom: 13,
+                        onPositionChanged: (position, hasGesture) {
+                          if (hasGesture &&
+                              _alignPositionOnUpdate != AlignOnUpdate.never) {
+                            setState(
+                              () =>
+                                  _alignPositionOnUpdate = AlignOnUpdate.never,
+                            );
+                          }
+                          _debounce.run(() {
+                            setState(() {
+                              getListMarker(position);
+                            });
+                          });
+                        },
+                      ),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        ),
+                        MarkerLayer(markers: visibleMarker),
+                        CurrentLocationLayer(
+                          alignPositionStream:
+                              _alignPositionStreamController.stream,
+                          alignPositionOnUpdate: _alignPositionOnUpdate,
+                        )
+                      ]),
+                ),
+              ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(
