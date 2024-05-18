@@ -22,29 +22,29 @@ class CurrentObservation extends StatelessWidget {
                 context: context,
                 removeTop: true,
                 child: GridView.count(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
                   childAspectRatio: (1 / .5),
                   children: [
                     ObservationCard(
                       indexMaidex: 1,
                       textTitle: 'Temp',
-                      textSubTitle: '${observationAQI.t!.v.toString()} °C',
+                      textSubTitle: '${observationAQI.t?.v.toString() ?? '-'} °C',
                     ),
                     ObservationCard(
                       indexMaidex: 2,
                       textTitle: 'PM10',
-                      textSubTitle: '${observationAQI.pm10!.v.toString()} µg/m3',
+                      textSubTitle: '${observationAQI.pm10?.v.toString() ?? '-'} µg/m3',
                     ),
                     ObservationCard(
                       indexMaidex: 3,
                       textTitle: 'Ozone',
-                      textSubTitle: '${observationAQI.o3!.v.toString()} µg/m3',
+                      textSubTitle: '${observationAQI.o3?.v.toString() ?? '-'} µg/m3',
                     ),
                     ObservationCard(
                       indexMaidex: 4,
                       textTitle: 'Wind',
-                      textSubTitle: '${observationAQI.w!.v.toString()} M/S',
+                      textSubTitle: '${observationAQI.w?.v.toString() ?? '-'} M/S',
                     ),
                   ],
                 ),
