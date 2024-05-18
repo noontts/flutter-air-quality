@@ -32,12 +32,12 @@ class SearchFoundCard extends ConsumerWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(25)),
+            borderRadius: const BorderRadius.all(Radius.circular(25)),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.25),
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
                 blurRadius: 4,
               ),
             ],
@@ -49,7 +49,7 @@ class SearchFoundCard extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
+                SizedBox(
                   width: 180,
                   child: Text(
                     location,

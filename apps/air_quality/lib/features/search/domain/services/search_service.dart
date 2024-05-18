@@ -11,11 +11,13 @@ class SearchService implements ISearchService {
   Future<List<SearchResult>> getSearchByKeyword(String keyword) async {
     final rawResponse = await repository.getSearchByKeyword(keyword);
 
-    return rawResponse.data!
+    final filteredData = rawResponse.data!.where((e) => e.aqi != '-').toList();
+
+    return filteredData
         .map((e) => SearchResult(
             stationId: e.uid!,
             city: e.station!.name!, 
-            pm25: e.aqi == '-' ? 0 : int.parse(e.aqi!),
+            pm25: int.parse(e.aqi!),
             latlng: LatLng(e.station!.geo![0], e.station!.geo![1]),
             ))
         .toList();
