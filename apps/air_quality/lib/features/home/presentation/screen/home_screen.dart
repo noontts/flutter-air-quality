@@ -11,6 +11,7 @@ import 'package:core_libs/utils/quote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:go_router/go_router.dart';
 
@@ -69,8 +70,14 @@ class _HomepageState extends ConsumerState<Homepage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              homeNotifier.getCurrentAqiDetail(mockCurrentLatLng);
+            onPressed: () async{
+              LocationPermission permission = await Geolocator.requestPermission();
+              if(permission == LocationPermission.denied || permission == LocationPermission.deniedForever){
+                await Geolocator.openLocationSettings();
+              }else{
+                Position position = await Geolocator.getCurrentPosition();
+                homeNotifier.getCurrentAqiDetail(LatLng(position.latitude, position.longitude));
+              }
             },
             icon: const Icon(Icons.gps_fixed),
           ),
