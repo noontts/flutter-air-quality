@@ -7,7 +7,7 @@ class LoadingFullScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Lottie.asset("../core/assets/lotties/loading.json"),
+      child: Lottie.asset("assets/lotties/loading.json"),
     );
   }
 }

@@ -89,7 +89,7 @@ class CityAirQualityZone extends StatelessWidget {
               child: SizedBox(
                 height: 200,
                 child: Image.asset(
-                  '../core/assets/images/town_main.png',
+                  'assets/images/town_main.png',
                   fit: BoxFit.cover,
                 ),
               ),

@@ -14,16 +14,16 @@ class ObservationCard extends StatelessWidget {
 
     switch (indexMaidex) {
       case 1:
-        imageObservationCard = '../core/assets/images/temp.png';
+        imageObservationCard = 'assets/images/temp.png';
         break;
       case 2:
-        imageObservationCard = '../core/assets/images/PM10Icon.png';
+        imageObservationCard = 'assets/images/PM10Icon.png';
         break;
       case 3:
-        imageObservationCard = '../core/assets/images/OzoneIcon.png';
+        imageObservationCard = 'assets/images/OzoneIcon.png';
         break;
       case 4:
-        imageObservationCard = '../core/assets/images/wind.png';
+        imageObservationCard = 'assets/images/wind.png';
         break;
       default:
         imageObservationCard = '';
