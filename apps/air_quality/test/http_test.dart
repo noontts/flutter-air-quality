@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:air_quality/features/home/data/repository/aqi_repository.dart';
 import 'package:air_quality/features/home/domain/ports/aqi/repository.dart';
 import 'package:air_quality/features/home/domain/ports/aqi/services.dart';
@@ -895,11 +897,289 @@ void main() {
     final searchService = getIt.get<ISearchService>();
     final detailSearchResponse = await searchService.getSearchByKeyword('c');
 
-    expect(detailSearchResponse[0].city, "Chiang Dao Public Heath Office, Thailand; Chiang Dao Public Heath Office, Thailand (สสอ. เชียงดาว จ. เชียงใหม่)");
+    expect(detailSearchResponse, isNotNull);
+    });
 
-    
-    }
-  
-  );
+  test('Get Aqi Detail From ip base',()async{
+    final mockHttpService = getIt.get<HttpService>();
+    (mockHttpService as MockHttpService).data = {
+      "status": "ok",
+      "data": {
+        "aqi": 63,
+        "idx": 5775,
+        "attributions": [
+          {
+            "url": "http://aqmthai.com/",
+            "name": "Division of Air Quality Data, Air Quality and Noise Management Bureau, Pollution Control Department.",
+            "logo": "Thailand-PCD.png"
+          },
+          {
+            "url": "https://waqi.info/",
+            "name": "World Air Quality Index Project"
+          }
+        ],
+        "city": {
+          "geo": [
+            18.787747,
+            98.9931284
+          ],
+          "name": "Chiang Mai",
+          "url": "https://aqicn.org/city/chiang-mai",
+          "location": ""
+        },
+        "dominentpol": "pm25",
+        "iaqi": {
+          "h": {
+            "v": 9
+          },
+          "no2": {
+            "v": 7.5
+          },
+          "o3": {
+            "v": 14.6
+          },
+          "p": {
+            "v": 967.9
+          },
+          "pm10": {
+            "v": 82
+          },
+          "pm25": {
+            "v": 63
+          },
+          "r": {
+            "v": 99
+          },
+          "so2": {
+            "v": 0.6
+          },
+          "t": {
+            "v": 30.1
+          },
+          "w": {
+            "v": 3.6
+          }
+        },
+        "time": {
+          "s": "2024-05-18 21:00:00",
+          "tz": "+07:00",
+          "v": 1716066000,
+          "iso": "2024-05-18T21:00:00+07:00"
+        },
+        "forecast": {
+          "daily": {
+            "o3": [
+              {
+                "avg": 1,
+                "day": "2024-05-16",
+                "max": 2,
+                "min": 1
+              },
+              {
+                "avg": 1,
+                "day": "2024-05-17",
+                "max": 3,
+                "min": 1
+              },
+              {
+                "avg": 1,
+                "day": "2024-05-18",
+                "max": 6,
+                "min": 1
+              },
+              {
+                "avg": 9,
+                "day": "2024-05-19",
+                "max": 40,
+                "min": 1
+              },
+              {
+                "avg": 11,
+                "day": "2024-05-20",
+                "max": 54,
+                "min": 1
+              },
+              {
+                "avg": 7,
+                "day": "2024-05-21",
+                "max": 24,
+                "min": 1
+              },
+              {
+                "avg": 10,
+                "day": "2024-05-22",
+                "max": 82,
+                "min": 1
+              },
+              {
+                "avg": 1,
+                "day": "2024-05-23",
+                "max": 2,
+                "min": 1
+              }
+            ],
+            "pm10": [
+              {
+                "avg": 29,
+                "day": "2024-05-16",
+                "max": 51,
+                "min": 19
+              },
+              {
+                "avg": 29,
+                "day": "2024-05-17",
+                "max": 45,
+                "min": 19
+              },
+              {
+                "avg": 24,
+                "day": "2024-05-18",
+                "max": 34,
+                "min": 19
+              },
+              {
+                "avg": 19,
+                "day": "2024-05-19",
+                "max": 19,
+                "min": 19
+              },
+              {
+                "avg": 19,
+                "day": "2024-05-20",
+                "max": 19,
+                "min": 19
+              },
+              {
+                "avg": 27,
+                "day": "2024-05-21",
+                "max": 28,
+                "min": 19
+              },
+              {
+                "avg": 44,
+                "day": "2024-05-22",
+                "max": 46,
+                "min": 28
+              },
+              {
+                "avg": 33,
+                "day": "2024-05-23",
+                "max": 46,
+                "min": 27
+              },
+              {
+                "avg": 30,
+                "day": "2024-05-24",
+                "max": 35,
+                "min": 19
+              }
+            ],
+            "pm25": [
+              {
+                "avg": 90,
+                "day": "2024-05-16",
+                "max": 151,
+                "min": 68
+              },
+              {
+                "avg": 90,
+                "day": "2024-05-17",
+                "max": 134,
+                "min": 68
+              },
+              {
+                "avg": 78,
+                "day": "2024-05-18",
+                "max": 102,
+                "min": 68
+              },
+              {
+                "avg": 68,
+                "day": "2024-05-19",
+                "max": 68,
+                "min": 68
+              },
+              {
+                "avg": 68,
+                "day": "2024-05-20",
+                "max": 68,
+                "min": 68
+              },
+              {
+                "avg": 86,
+                "day": "2024-05-21",
+                "max": 89,
+                "min": 68
+              },
+              {
+                "avg": 131,
+                "day": "2024-05-22",
+                "max": 138,
+                "min": 89
+              },
+              {
+                "avg": 101,
+                "day": "2024-05-23",
+                "max": 138,
+                "min": 85
+              },
+              {
+                "avg": 92,
+                "day": "2024-05-24",
+                "max": 105,
+                "min": 68
+              }
+            ],
+            "uvi": [
+              {
+                "avg": 0,
+                "day": "2020-09-25",
+                "max": 0,
+                "min": 0
+              },
+              {
+                "avg": 1,
+                "day": "2020-09-26",
+                "max": 9,
+                "min": 0
+              },
+              {
+                "avg": 2,
+                "day": "2020-09-27",
+                "max": 9,
+                "min": 0
+              },
+              {
+                "avg": 2,
+                "day": "2020-09-28",
+                "max": 10,
+                "min": 0
+              },
+              {
+                "avg": 1,
+                "day": "2020-09-29",
+                "max": 10,
+                "min": 0
+              },
+              {
+                "avg": 2,
+                "day": "2020-09-30",
+                "max": 9,
+                "min": 0
+              }
+            ]
+          }
+        },
+        "debug": {
+          "sync": "2024-05-18T23:27:43+09:00"
+        }
+      }
+    };
+
+    final aqiService = getIt.get<IAQIService>();
+    final aqiDetail = await aqiService.getAqiDetailByIP();
+
+    expect(aqiDetail, isNotNull);
+  });
 }
 

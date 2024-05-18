@@ -23,7 +23,6 @@ class Homepage extends ConsumerStatefulWidget {
 }
 
 class _HomepageState extends ConsumerState<Homepage> {
-  final mockCurrentLatLng = const LatLng(18.80823885274427, 98.9541342695303);
   IAQIService service = getIt.get<IAQIService>();
   late LatLng currentLatLng;
   late AqiToDisplay aqiToDisplay;
@@ -38,7 +37,7 @@ class _HomepageState extends ConsumerState<Homepage> {
     Future(() {
       ref
           .read(homeViewModelProvider.notifier)
-          .getCurrentAqiDetail(mockCurrentLatLng);
+          .getCurrentAqiDetailByIP();
     });
 
     Timer.periodic(const Duration(seconds: 15), (timer) {

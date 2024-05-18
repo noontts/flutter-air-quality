@@ -54,4 +54,15 @@ class HomeViewModel extends _$HomeViewModel {
       aqiToDisplay: response,
     );
   }
+
+  void getCurrentAqiDetailByIP() async {
+    state = state.copyWith(loading: true);
+
+    final response = await service.getAqiDetailByIP();
+
+    state = state.copyWith(
+      loading: false,
+      aqiToDisplay: response,
+    );
+  }
 }

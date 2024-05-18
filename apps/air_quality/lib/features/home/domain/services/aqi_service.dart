@@ -26,4 +26,14 @@ class AQIService implements IAQIService {
         forecastPM25: rawResponse.data!.forecast!.daily!.pm25!,
         stationName: rawResponse.data!.city!.name!);
   }
+
+  @override
+  Future<AqiToDisplay> getAqiDetailByIP() async {
+    final rawResponse = await repository.getAqiDetailByIP();
+
+    return AqiToDisplay(
+        aqiList: rawResponse.data!.iaqi!,
+        forecastPM25: rawResponse.data!.forecast!.daily!.pm25!,
+        stationName: rawResponse.data!.city!.name!);
+  }
 }
