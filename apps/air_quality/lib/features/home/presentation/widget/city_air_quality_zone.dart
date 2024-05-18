@@ -63,6 +63,7 @@ class CityAirQualityZone extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
+                        textAlign: TextAlign.center,
                         aqiToText(aqiPm),
                         style: const TextStyle(
                           color: Colors.black,
