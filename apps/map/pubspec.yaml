@@ -18,6 +18,7 @@ dependencies:
   just_the_tooltip: ^0.0.12
   get_it: ^7.7.0
   flutter_map_location_marker: ^8.0.8
+  geolocator: ^11.1.0
 
 dev_dependencies:
   flutter_test:

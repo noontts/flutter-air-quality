@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:core_libs/dependency_injection/get_it.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:map/feature/map/domain/ports/map/services.dart';
 import 'package:core_libs/utils/debounce.dart';
@@ -23,24 +23,76 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  final PanelController _pc = PanelController();
-  IMapService service = getIt.get<IMapService>();
-  final mockLatLng = [18.80823885274427, 98.9541342695303];
-  final _debounce = Debounce(milliseconds: 350);
-  List<Marker> fullListMarker = [];
-  List<Marker> visibleMarker = [];
-  final _mapController = MapController();
-  String stationName = '';
-  int aqi = 0;
-
-  BorderRadiusGeometry radius = const BorderRadius.only(
-    topLeft: Radius.circular(24.0),
-    topRight: Radius.circular(24.0),
-  );
+  late final PanelController _pc;
+  late IMapService service;
+  late List<double> mockLatLng;
+  late Debounce _debounce;
+  late List<Marker> fullListMarker;
+  late List<Marker> visibleMarker;
+  late MapController _mapController;
+  late String stationName;
+  late int aqi;
+  late BorderRadiusGeometry radius;
+  late AlignOnUpdate _alignPositionOnUpdate;
+  late final StreamController<double?> _alignPositionStreamController;
+  late LatLng? _currentLocation;
 
   @override
   void initState() {
     super.initState();
+    _pc = PanelController();
+    service = getIt.get<IMapService>();
+    mockLatLng = [18.80823885274427, 98.9541342695303];
+    _currentLocation = LatLng(mockLatLng[0], mockLatLng[1]);
+    _debounce = Debounce(milliseconds: 350);
+    fullListMarker = [];
+    visibleMarker = [];
+    _mapController = MapController();
+    stationName = '';
+    aqi = 0;
+    radius = const BorderRadius.only(
+      topLeft: Radius.circular(24.0),
+      topRight: Radius.circular(24.0),
+    );
+    _alignPositionOnUpdate = AlignOnUpdate.always;
+    _alignPositionStreamController = StreamController<double?>();
+    _checkLocationPermission();
+    _getCurrentLocation();
+  }
+
+  @override
+  void dispose() {
+    _alignPositionStreamController.close();
+    super.dispose();
+  }
+
+  Future<void> _checkLocationPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Handle denied permission
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Handle permanently denied permission
+    }
+
+    if (permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always) {}
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      setState(() {
+        _currentLocation = LatLng(position.latitude, position.longitude);
+      });
+    } catch (e) {
+      print("Error getting location: $e");
+    }
   }
 
   void getListMarker(MapPosition position) async {
@@ -79,9 +131,6 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    StreamController<LocationMarkerPosition?> streamController = StreamController<LocationMarkerPosition?>();
-    streamController.add(LocationMarkerPosition(latitude: mockLatLng[0], longitude: mockLatLng[1], accuracy: 1));
-
     return Scaffold(
         body: SlidingUpPanel(
           controller: _pc,
@@ -114,9 +163,15 @@ class _MapScreenState extends State<MapScreen> {
                   onTap: (_, point) async {
                     await _pc.hide();
                   },
-                  initialCenter: LatLng(mockLatLng[0], mockLatLng[1]),
-                  initialZoom: 14,
-                  onPositionChanged: (position, _) {
+                  initialCenter: _currentLocation ?? LatLng(mockLatLng[0], mockLatLng[1]),
+                  initialZoom: 13,
+                  onPositionChanged: (position, hasGesture) {
+                    if (hasGesture &&
+                        _alignPositionOnUpdate != AlignOnUpdate.never) {
+                      setState(
+                        () => _alignPositionOnUpdate = AlignOnUpdate.never,
+                      );
+                    }
                     _debounce.run(() {
                       setState(() {
                         getListMarker(position);
@@ -131,25 +186,24 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   MarkerLayer(markers: visibleMarker),
                   CurrentLocationLayer(
-                    positionStream: streamController.stream,
-                      style: const LocationMarkerStyle(
-                    marker: DefaultLocationMarker(
-                      child: Icon(
-                        Icons.navigation,
-                        color: Colors.white,
-                      ),
-                    ),
-                    markerSize: Size(40, 40),
-                  ))
+                    alignPositionStream: _alignPositionStreamController.stream,
+                    alignPositionOnUpdate: _alignPositionOnUpdate,
+                  )
                 ]),
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _mapController.move(LatLng(mockLatLng[0], mockLatLng[1]), 14);
+            setState(
+              () => _alignPositionOnUpdate = AlignOnUpdate.always,
+            );
+            _alignPositionStreamController.add(13);
           },
           backgroundColor: Colors.white,
-          child: const Icon(Icons.gps_fixed),
+          child: const Icon(
+            Icons.gps_fixed,
+            color: Colors.black,
+          ),
         ),
         floatingActionButtonLocation:
             FloatingActionButtonLocation.miniStartTop);
