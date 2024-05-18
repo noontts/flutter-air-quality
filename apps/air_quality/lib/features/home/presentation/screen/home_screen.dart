@@ -9,6 +9,7 @@ import 'package:air_quality/features/home/presentation/widget/loading.dart';
 import 'package:core_libs/dependency_injection/get_it.dart';
 import 'package:core_libs/utils/quote.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:go_router/go_router.dart';
@@ -57,6 +58,7 @@ class _HomepageState extends ConsumerState<Homepage> {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         title: const Text('No IQ Air'),
         centerTitle: true,
         leading: IconButton(
