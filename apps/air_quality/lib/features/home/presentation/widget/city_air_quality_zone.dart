@@ -18,7 +18,7 @@ class CityAirQualityZone extends StatelessWidget {
         Stack(
           children: [
             Container(
-              height: 340,
+              height: 360,
               decoration: BoxDecoration(
                 gradient: backgroundGradientColor,
               ),
@@ -27,15 +27,18 @@ class CityAirQualityZone extends StatelessWidget {
                 child: Column(
                   children: [
                     Center(
-                      child: Text(
-                        stationName,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          stationName,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18
+                          ),
                         ),
                       ),
                     ),
@@ -44,7 +47,7 @@ class CityAirQualityZone extends StatelessWidget {
                         aqiPm.toString(),
                         style: const TextStyle(
                           color: Colors.black,
-                          fontSize: 72,
+                          fontSize: 64,
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.none,
                         ),
@@ -62,14 +65,18 @@ class CityAirQualityZone extends StatelessWidget {
                       ),
                     ),
                     Center(
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        aqiToText(aqiPm),
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.none,
+                      child: Container(
+                        width: 200,
+                        child: Text(
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          aqiToText(aqiPm),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.none,
+                          ),
                         ),
                       ),
                     ),
