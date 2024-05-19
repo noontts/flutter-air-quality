@@ -11,6 +11,7 @@ import 'package:core_libs/utils/quote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,7 +23,6 @@ class Homepage extends ConsumerStatefulWidget {
 }
 
 class _HomepageState extends ConsumerState<Homepage> {
-  final mockCurrentLatLng = const LatLng(18.80823885274427, 98.9541342695303);
   IAQIService service = getIt.get<IAQIService>();
   late LatLng currentLatLng;
   late AqiToDisplay aqiToDisplay;
@@ -37,7 +37,7 @@ class _HomepageState extends ConsumerState<Homepage> {
     Future(() {
       ref
           .read(homeViewModelProvider.notifier)
-          .getCurrentAqiDetail(mockCurrentLatLng);
+          .getCurrentAqiDetailByIP();
     });
 
     Timer.periodic(const Duration(seconds: 15), (timer) {
@@ -69,8 +69,27 @@ class _HomepageState extends ConsumerState<Homepage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              homeNotifier.getCurrentAqiDetail(mockCurrentLatLng);
+            onPressed: () async{
+              LocationPermission permission = await Geolocator.checkPermission();
+              if(permission == LocationPermission.denied || permission == LocationPermission.deniedForever){
+                await Geolocator.openLocationSettings();
+              }else{
+                try {
+                  await Geolocator.requestPermission();
+                  Position position = await Geolocator.getCurrentPosition(
+                      desiredAccuracy: LocationAccuracy.high,
+                      timeLimit: const Duration(seconds: 2));
+                  homeNotifier.getCurrentAqiDetail(
+                      LatLng(position.latitude, position.longitude));
+                }on TimeoutException {
+                  Position? lastKnownPosition = await Geolocator.getLastKnownPosition();
+                  if (lastKnownPosition != null) {
+                    homeNotifier.getCurrentAqiDetail(LatLng(lastKnownPosition.latitude, lastKnownPosition.longitude));
+                  } else {
+                    print('No last known position available');
+                  }
+                }
+              }
             },
             icon: const Icon(Icons.gps_fixed),
           ),

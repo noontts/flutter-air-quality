@@ -4,4 +4,5 @@ import 'package:latlong2/latlong.dart';
 abstract class IAQIRepository{
   Future<AQIDetailResponse> getAqiDetailByLatLng(LatLng latLng);
   Future<AQIDetailResponse> getAqiDetailById(int id);
+  Future<AQIDetailResponse> getAqiDetailByIP();
 }
