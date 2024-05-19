@@ -70,11 +70,12 @@ class _HomepageState extends ConsumerState<Homepage> {
         actions: [
           IconButton(
             onPressed: () async{
-              LocationPermission permission = await Geolocator.requestPermission();
+              LocationPermission permission = await Geolocator.checkPermission();
               if(permission == LocationPermission.denied || permission == LocationPermission.deniedForever){
                 await Geolocator.openLocationSettings();
               }else{
-                Position position = await Geolocator.getCurrentPosition();
+                Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high,
+                timeLimit: const Duration(seconds: 10));
                 homeNotifier.getCurrentAqiDetail(LatLng(position.latitude, position.longitude));
               }
             },
