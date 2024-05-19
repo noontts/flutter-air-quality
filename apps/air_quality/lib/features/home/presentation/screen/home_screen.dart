@@ -74,9 +74,21 @@ class _HomepageState extends ConsumerState<Homepage> {
               if(permission == LocationPermission.denied || permission == LocationPermission.deniedForever){
                 await Geolocator.openLocationSettings();
               }else{
-                Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high,
-                timeLimit: const Duration(seconds: 10));
-                homeNotifier.getCurrentAqiDetail(LatLng(position.latitude, position.longitude));
+                try {
+                  await Geolocator.requestPermission();
+                  Position position = await Geolocator.getCurrentPosition(
+                      desiredAccuracy: LocationAccuracy.high,
+                      timeLimit: const Duration(seconds: 2));
+                  homeNotifier.getCurrentAqiDetail(
+                      LatLng(position.latitude, position.longitude));
+                }on TimeoutException {
+                  Position? lastKnownPosition = await Geolocator.getLastKnownPosition();
+                  if (lastKnownPosition != null) {
+                    homeNotifier.getCurrentAqiDetail(LatLng(lastKnownPosition.latitude, lastKnownPosition.longitude));
+                  } else {
+                    print('No last known position available');
+                  }
+                }
               }
             },
             icon: const Icon(Icons.gps_fixed),
